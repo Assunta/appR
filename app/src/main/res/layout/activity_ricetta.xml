@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.oropallo.assunta.recipes.RicettaActivity">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/appbar"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
@@ -21,6 +24,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_ricetta" />
-
+    <FrameLayout
+        android:id="@+id/fragment_container_ricetta"
+        android:layout_width="match_parent"
+        android:layout_height="497dp"
+        android:layout_below="@+id/appbar"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

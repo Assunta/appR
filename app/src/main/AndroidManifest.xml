@@ -2,26 +2,58 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oropallo.assunta.recipes">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="Rush_classes_package"
+            android:value="co.uk.rushexample" />
+        <meta-data
+            android:name="Rush_log"
+            android:value="true" />
+        <meta-data
+            android:name="Rush_db_name"
+            android:value="recipes.db" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".SearchResultsActivity" />
         </activity>
         <activity
             android:name=".RicettaActivity"
             android:label="@string/title_activity_ricetta"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AddRicettaActivity"
+            android:label="@string/title_activity_add_ricetta"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityPageSlidingAddRicetta"
+            android:label="@string/title_activity_page_sliding_add_ricetta"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".SearchResultActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+        </activity>
     </application>
 
 </manifest>

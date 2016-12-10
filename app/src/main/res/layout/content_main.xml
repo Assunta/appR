@@ -12,9 +12,29 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.oropallo.assunta.recipes.MainActivity"
     tools:showIn="@layout/app_bar_main">
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_main" />
+
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/fabAddRicetta"
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="15dp"
+        app:backgroundTint="@color/colorPrimaryDark"
+        android:layout_gravity="bottom|right"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="com.oropallo.assunta.recipes.Adapter.ScrollAwareFABBehavior"/>
+</android.support.design.widget.CoordinatorLayout>
+
 </RelativeLayout>

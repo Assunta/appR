@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:clipChildren="true"
+    android:clipToPadding="true"
+    android:paddingBottom="5dp">
+
+    <com.ramotion.foldingcell.FoldingCell
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/folding_cell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        ​
+        <RelativeLayout
+            android:id="@+id/cell_content_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/textViewUnfolded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="cursive"
+                android:textSize="40sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:text="categoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewUnfoldedCategory"
+                android:layout_below="@+id/textViewUnfolded"
+                android:layout_marginLeft="5dp" />
+            <ImageView
+                app:srcCompat="@drawable/ic_menu_camera"
+                android:id="@+id/imageView2Unf"
+                android:layout_below="@+id/textViewUnfoldedCategory"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/>
+            <TextView
+                android:text="Num persone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imageView2Unf"
+                android:layout_alignParentStart="true"
+                android:id="@+id/num_persone_unf"
+                android:textSize="20sp" />
+            <TextView
+                android:text="Ingredienti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/num_persone_unf"
+                android:layout_marginTop="28dp"
+                android:id="@+id/ingredienti_unf"
+                android:fontFamily="cursive"
+                android:textSize="24sp" />
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:id="@+id/recycler_ingredienti_unf"
+                android:layout_below="@+id/ingredienti_unf"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_info_details"
+                android:id="@+id/imageButton_unf"
+                android:layout_below="@+id/recycler_ingredienti_unf"
+                android:adjustViewBounds="true"
+                android:background="@color/spots_dialog_color" />
+            <TextView
+                android:text="Visualizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewVisualizza"
+                android:layout_toRightOf="@+id/imageButton_unf"
+                android:layout_below="@+id/recycler_ingredienti_unf"
+                android:textSize="18sp" />
+        </RelativeLayout>
+        ​
+
+
+
+        <GridLayout
+            android:id="@+id/cell_title_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+            <TextView
+                android:id="@+id/textViewFolded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="cursive"
+                android:textSize="40sp"
+                android:textColor="@android:color/white"
+                android:background="@color/spots_dialog_color"
+                android:paddingLeft="5dp"
+                android:layout_row="0"
+                android:layout_column="2"/>
+
+            <cn.refactor.library.ShapeImageView
+                app:shape="Circle"
+                app:borderWidth="2dp"
+                app:borderColor="@color/spots_dialog_color"
+                android:src="@mipmap/ic_food"
+                app:backgroundColor="@color/cardview_light_background"
+                android:id="@+id/imageView2"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:adjustViewBounds="true"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:cropToPadding="false" />
+
+        </GridLayout>
+        ​
+    </com.ramotion.foldingcell.FoldingCell>
+</GridLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Categoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewCategorySearch"
+        android:textSize="18sp"
+        android:paddingLeft="5dp"
+        android:fontFamily="cursive" />
+
+
+    <CheckBox
+        android:text="Primo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxPrimo" />
+
+    <CheckBox
+        android:text="Secondo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox2Secondo" />
+
+    <CheckBox
+        android:text="Dolce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxDolce" />
+
+    <CheckBox
+        android:text="Aperitivo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxAperitivo" />
+
+</LinearLayout>

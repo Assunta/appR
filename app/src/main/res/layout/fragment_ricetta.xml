@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:id="@+id/scrollview_ricetta">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,7 +26,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/name_ricetta"
         android:layout_alignParentStart="true"
-        android:id="@+id/name_category" />
+        android:id="@+id/name_category"
+        android:textSize="20sp" />
+    <TextView
+        android:text="Num persone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_category"
+        android:layout_alignParentStart="true"
+        android:id="@+id/num_persone_tetx_view"
+        android:textSize="20sp" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -27,7 +43,9 @@
         android:layout_alignParentStart="true"
         android:id="@+id/imageView_ricetta"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/name_category" />
+        android:layout_below="@+id/num_persone_tetx_view"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true" />
 
     <TextView
         android:text="Ricetta"
@@ -35,9 +53,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/name_ricetta"
         android:fontFamily="cursive"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorPrimaryDark" />
 
     <TextView
         android:text="Ingredienti"
@@ -49,23 +68,13 @@
         android:fontFamily="cursive"
         android:textSize="24sp" />
 
-    <TextView
-        android:text="Procedimento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/procedimento"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="81dp"
-        android:fontFamily="cursive"
-        android:textSize="24sp" />
-
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/procedimento"
         android:layout_alignParentStart="true"
         android:layout_marginTop="31dp"
+        android:layout_below="@+id/procedimento"
         android:id="@+id/recycler_procedimento" />
 
     <android.support.v7.widget.RecyclerView
@@ -74,6 +83,34 @@
         android:scrollbars="vertical"
         android:id="@+id/recycler_ingredienti"
         android:layout_below="@+id/ingredienti"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:text="Procedimento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/procedimento"
+        android:fontFamily="cursive"
+        android:textSize="24sp"
+        android:layout_below="@+id/recycler_ingredienti"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:paddingTop="5dp" />
+    <TextView
+        android:text="Nota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nota_text_view"
+        android:fontFamily="sans-serif"
+        android:textSize="24sp"
+        android:layout_below="@+id/recycler_procedimento"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:paddingTop="5dp" />
 
 </RelativeLayout>
+</ScrollView>

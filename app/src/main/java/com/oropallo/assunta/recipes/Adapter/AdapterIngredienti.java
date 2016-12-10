@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.oropallo.assunta.recipes.R;
+import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +18,11 @@ import java.util.List;
  */
 
 public class AdapterIngredienti extends RecyclerView.Adapter<AdapterIngredienti.IngredientiViewHolder>{
-    private List<String> ingredienti;
+    private List<IngredienteRicetta> ingredienti;
     private Context context;
 
-    public AdapterIngredienti() {
-        ingredienti = new ArrayList<String>();
-        for(int i=0; i<7; i++)
-            ingredienti.add("ingrediente "+i);
+    public AdapterIngredienti(List<IngredienteRicetta> ingredientis) {
+       ingredienti=ingredientis;
     }
 
     @Override
@@ -36,8 +35,12 @@ public class AdapterIngredienti extends RecyclerView.Adapter<AdapterIngredienti.
 
     @Override
     public void onBindViewHolder(AdapterIngredienti.IngredientiViewHolder holder, int position) {
-        holder.nomeIngrediente.setText(ingredienti.get(position));
-        holder.quantita.setText(position+" g");
+        holder.nomeIngrediente.setText(ingredienti.get(position).getNome());
+        int qu= ingredienti.get(position).getQuantita();
+        if(qu==0)
+            holder.quantita.setText(ingredienti.get(position).getUnita());
+        else
+            holder.quantita.setText(qu+ingredienti.get(position).getUnita());
     }
 
     @Override
