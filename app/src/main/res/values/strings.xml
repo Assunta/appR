@@ -36,4 +36,6 @@
     <string name="search_hint">name</string>
     <string name="search_result">Search_result</string>
     <string name="search">"Search"</string>
+    <string name="action_edit">modifica</string>
+    <string name="save">Salva</string>
 </resources>

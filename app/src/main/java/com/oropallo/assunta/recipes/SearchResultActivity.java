@@ -31,7 +31,7 @@ import java.util.List;
 
 import cn.refactor.library.ShapeImageView;
 import dmax.dialog.SpotsDialog;
-import in.srain.cube.views.GridViewWithHeaderAndFooter;
+
 
 public class SearchResultActivity extends AppCompatActivity {
     RecyclerView recyclerView;

@@ -30,7 +30,6 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.d-max:spots-dialog:0.7@aar'
     compile 'com.cleveroad:fan-layout-manager:1.0.2'
-    compile 'in.srain.cube:grid-view-with-header-footer:1.0.12'
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
     compile 'com.github.andyxialm:ShapeImageView:d6c48dffa3'
 
