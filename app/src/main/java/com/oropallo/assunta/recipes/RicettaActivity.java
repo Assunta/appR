@@ -1,13 +1,10 @@
 package com.oropallo.assunta.recipes;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -16,13 +13,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+
 
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
+import com.oropallo.assunta.recipes.domain.Ricetta;
 
 import org.w3c.dom.Text;
+
+import co.uk.rushorm.android.RushBitmapFile;
 
 public class RicettaActivity extends AppCompatActivity {
 
@@ -69,6 +67,36 @@ public class RicettaActivity extends AppCompatActivity {
 
         if(id == R.id.action_home) {
             finish();
+        }
+        if(id== R.id.action_delete){
+            final Context context=this;
+            AlertDialog.Builder builder= new AlertDialog.Builder(this);
+            builder.setTitle("Eliminazione");
+            builder.setMessage("Sei davver sicuro di voler eliminare questa ricetta?");
+            builder.setCancelable(true);
+            builder.setPositiveButton(R.string.action_delete, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    FragmentManager fragmentManager= getSupportFragmentManager();
+                    RicettaActivityFragment f=(RicettaActivityFragment) fragmentManager.findFragmentById(R.id.fragment_container_ricetta);
+                    Ricetta r= f.getRicetta();
+                    if(r.isHasImage()){
+                        RushBitmapFile file = new RushBitmapFile(context.getFilesDir().getAbsolutePath().concat(r.getId()));
+                        file.delete();
+                    }
+                    r.delete();
+                    dialog.dismiss();
+                    finish();
+                }
+            })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert= builder.create();
+            alert.show();
+
         }
         return super.onOptionsItemSelected(item);
     }

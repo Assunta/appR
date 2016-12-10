@@ -311,4 +311,8 @@ public class RicettaActivityFragment extends Fragment {
         startActivity(intent);
         getActivity().finish();
     }
+
+    public Ricetta getRicetta(){
+        return r;
+    }
 }

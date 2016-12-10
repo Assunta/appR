@@ -38,4 +38,5 @@
     <string name="search">"Search"</string>
     <string name="action_edit">modifica</string>
     <string name="save">Salva</string>
+    <string name="action_delete">Elimina</string>
 </resources>

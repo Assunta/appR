@@ -47,11 +47,16 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private  List<Ricetta> list;
+    private  RecyclerView recyclerView;
 
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO gestire l'aggiornamento della lista di ricette quando si ritorna nella main activty
+        //refresh list
+        list= DBManager.getAllRicetteWithLimit(10);
+        final AdapterMain adapterMain= new AdapterMain(list);
+        recyclerView.setAdapter(adapterMain);
+
     }
 
     @Override
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity
 
 
         list= DBManager.getAllRicetteWithLimit(10);
-        RecyclerView recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
+        recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
