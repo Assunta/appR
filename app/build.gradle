@@ -23,6 +23,10 @@ repositories {
         url "http://maven.rushorm.com"
     }
     maven { url "https://jitpack.io" }
+
+}
+repositories{
+    jcenter()
 }
 
 dependencies {
@@ -32,6 +36,8 @@ dependencies {
     compile 'com.cleveroad:fan-layout-manager:1.0.2'
     compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
     compile 'com.github.andyxialm:ShapeImageView:d6c48dffa3'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.6.0'
+    compile 'org.jsoup:jsoup:1.9.1'
 
 }
 

@@ -59,6 +59,7 @@ public class RicettaActivityFragment extends Fragment {
 
         ArrayList<String> procedimento=new ArrayList<String>();
         TextView nome= (TextView)rootView.findViewById(R.id.name_ricetta);
+        nome.requestFocus();
         TextView categoria= (TextView) rootView.findViewById(R.id.name_category);
         TextView numPersone= (TextView) rootView.findViewById(R.id.num_persone_tetx_view);
         TextView nota= (TextView) rootView.findViewById(R.id.nota_text_view);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Ingrediente:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewAearchIngredienteDialog"
+        android:textSize="18sp"
+        android:fontFamily="cursive"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="10dp" />
+
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/autoCompleteTextSearchIngrediente"
+        android:textSize="24sp"
+        android:lineSpacingExtra="8sp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp" />
+</LinearLayout>

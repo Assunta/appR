@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/aggiungi_ricetta">
+        <menu>
+            <item
+                android:id="@+id/addMano"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="Nuova ricetta" />
+            <item
+            android:id="@+id/parser"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/importa_ricetta" />
+        </menu>
+    </item>
 
     <item android:title="Ricerca">
         <menu>
@@ -7,10 +19,12 @@
             android:id="@+id/nav_camera"
             android:icon="?android:attr/actionModeFindDrawable"
             android:title="Ricetta Random" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_search"
-            android:title="Ricerca avanzata" />
+
+            <item
+                android:id="@+id/search_ingrediente"
+                android:icon="@drawable/ic_menu_search"
+                android:title="Ricerca per ingrediente" />
+
         </menu>
     </item>
 

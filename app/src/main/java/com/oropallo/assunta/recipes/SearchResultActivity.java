@@ -81,43 +81,56 @@ public class SearchResultActivity extends AppCompatActivity {
                 setNoResult();
             }
         }
-        else{
-            final SpotsDialog dialog = new SpotsDialog(this);
-            dialog.show();
-            boolean primo= intent.getBooleanExtra("primo",false);
-            boolean secondo= intent.getBooleanExtra("secondo", false);
-            boolean dolce= intent.getBooleanExtra("dolce",false);
-            boolean aperitivo= intent.getBooleanExtra("aperitivo", false);
-            List<Ricetta> ricette= new ArrayList<Ricetta>();
-            List<Ricetta> ricetteP = new ArrayList<Ricetta>();
-            List<Ricetta> ricetteD = new ArrayList<Ricetta>();
-            List<Ricetta> ricetteS = new ArrayList<Ricetta>();
-            List<Ricetta> ricetteA = new ArrayList<Ricetta>();
-            if(primo)
-                ricetteP= DBManager.getRicetteByCategory("Primo");
-            if(secondo)
-                ricetteS= DBManager.getRicetteByCategory("Secondo");
-            if(dolce)
-                ricetteD= DBManager.getRicetteByCategory("Dolce");
-            if(aperitivo)
-                ricetteA= DBManager.getRicetteByCategory("Aperitivo");
-            for(Ricetta r: ricetteP)
-                ricette.add(r);
-            for(Ricetta r: ricetteS)
-                ricette.add(r);
-            for(Ricetta r: ricetteD)
-                ricette.add(r);
-            for(Ricetta r: ricetteA)
-                ricette.add(r);
-            if(ricette.size()>0){
-                recyclerView.setAdapter(new AdapterMain(ricette));
-                Log.d("DEBUG", "ricette: "+ricette.size());
+        else {
+            String type = intent.getStringExtra("TYPE");
+            if (type.equals("SEARCH_CATEGORY")) {
+                final SpotsDialog dialog = new SpotsDialog(this);
+                dialog.show();
+                boolean primo = intent.getBooleanExtra("primo", false);
+                boolean secondo = intent.getBooleanExtra("secondo", false);
+                boolean dolce = intent.getBooleanExtra("dolce", false);
+                boolean aperitivo = intent.getBooleanExtra("aperitivo", false);
+                List<Ricetta> ricette = new ArrayList<Ricetta>();
+                List<Ricetta> ricetteP = new ArrayList<Ricetta>();
+                List<Ricetta> ricetteD = new ArrayList<Ricetta>();
+                List<Ricetta> ricetteS = new ArrayList<Ricetta>();
+                List<Ricetta> ricetteA = new ArrayList<Ricetta>();
+                if (primo)
+                    ricetteP = DBManager.getRicetteByCategory("Primo");
+                if (secondo)
+                    ricetteS = DBManager.getRicetteByCategory("Secondo");
+                if (dolce)
+                    ricetteD = DBManager.getRicetteByCategory("Dolce");
+                if (aperitivo)
+                    ricetteA = DBManager.getRicetteByCategory("Aperitivo");
+                for (Ricetta r : ricetteP)
+                    ricette.add(r);
+                for (Ricetta r : ricetteS)
+                    ricette.add(r);
+                for (Ricetta r : ricetteD)
+                    ricette.add(r);
+                for (Ricetta r : ricetteA)
+                    ricette.add(r);
+                if (ricette.size() > 0) {
+                    recyclerView.setAdapter(new AdapterMain(ricette));
+                    Log.d("DEBUG", "ricette: " + ricette.size());
+                } else {
+                    Log.d("Debug", "Ricetta non trovata");
+                    setNoResult();
+                }
+                dialog.dismiss();
             }
-            else {
-                Log.d("Debug", "Ricetta non trovata");
-                setNoResult();
-            }
-            dialog.dismiss();
+            else if(type.equals("SEARCH_INGREDIENTE")){
+                String ingrediente= intent.getStringExtra("ingrediente");
+                List<Ricetta> result= DBManager.getRicettaByIngrediente(ingrediente);
+                if(result!=null && result.size()>0){
+                    recyclerView.setAdapter(new AdapterMain(result));
+                    Log.d("DEBUG", "ricette: " + result.size());
+                }else {
+                    Log.d("Debug", "Ricetta non trovata");
+                    setNoResult();
+                }
+        }
         }
     }
 

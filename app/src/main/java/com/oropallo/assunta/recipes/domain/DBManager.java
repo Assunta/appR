@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -70,6 +71,17 @@ public class DBManager {
         return ricette;
     }
 
+    public static List<Ricetta> getRicettaByIngrediente(String ingrediente){
+        List<Ricetta> allRicette= DBManager.getAllRicette();
+        List<Ricetta> result= new ArrayList<Ricetta>();
+        for(Ricetta r: allRicette){
+            for(IngredienteRicetta r2: new RushSearch().whereChildOf(r, "ingredientiList").find(IngredienteRicetta.class)) {
+                if (r2.getNome().equalsIgnoreCase(ingrediente))
+                    result.add(r);
+            }
+        }
+        return result;
+    }
 
 
 

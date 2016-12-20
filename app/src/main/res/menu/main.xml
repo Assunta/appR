@@ -7,7 +7,8 @@
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:checkable="true" />
 
     <item
         android:id="@+id/action_search"
@@ -15,6 +16,11 @@
         appcompat:actionViewClass="android.support.v7.widget.SearchView"
         appcompat:showAsAction="always"
         android:icon="@android:drawable/ic_menu_search" />
+    <item
+        android:id="@+id/action_filtra_category"
+        android:title="@string/action_search"
+        appcompat:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_more" />
 
 
 </menu>

@@ -39,4 +39,10 @@
     <string name="action_edit">modifica</string>
     <string name="save">Salva</string>
     <string name="action_delete">Elimina</string>
+    <string name="title_activity_user_settings">UserSettingsActivity</string>
+    <string name="indirizzo">Indirizzo</string>
+    <string name="giallozafferano">GialloZafferano</string>
+    <string name="aggiungi">Aggiungi</string>
+    <string name="importa_ricetta">Importa ricetta</string>
+    <string name="aggiungi_ricetta">Aggiungi ricetta</string>
 </resources>

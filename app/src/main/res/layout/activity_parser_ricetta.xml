@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_parser_ricetta"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.oropallo.assunta.recipes.ParserRicetta">
+
+    <TextView
+        android:text="@string/indirizzo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewURL"
+        android:textSize="24sp"
+        android:fontFamily="cursive"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="http://ricette.giallozafferano.it/Acai-bowl.html"
+        android:ems="10"
+        android:id="@+id/editTextURL"
+        android:layout_below="@+id/textViewURL"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="@string/aggiungi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonaURL"
+        android:layout_below="@+id/editTextURL"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="104dp"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/md_grey_50" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextURL"
+        android:layout_alignParentStart="true">
+
+        <RadioButton
+            android:text="@string/giallozafferano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButton"
+            android:layout_weight="1"
+            android:checked="true" />
+    </RadioGroup>
+
+
+</RelativeLayout>

@@ -17,7 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.oropallo.assunta.recipes.Adapter.CompressImage;
 import com.oropallo.assunta.recipes.domain.Ricetta;
+
+import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -68,6 +72,7 @@ public class AddRicettaFragment1 extends Fragment {
 
         //Add immagine
         image= (ImageView) view.findViewById(R.id.imageView_add_ricetta);
+        image.setVisibility(View.VISIBLE);
         imageLoad=null;
         final Button button= (Button) view.findViewById(R.id.button_add_immagine_ricetta);
         button.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +101,13 @@ public class AddRicettaFragment1 extends Fragment {
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
+            try {
+                String destFilePath = File.createTempFile("compressedFilePath", "jpg", this.getContext().getCacheDir()).getAbsolutePath();
+                CompressImage.resizeImage(picturePath, destFilePath);
+                picturePath=destFilePath;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             imageLoad=BitmapFactory.decodeFile(picturePath);
             image.setImageBitmap(imageLoad);
         }

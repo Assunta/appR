@@ -15,6 +15,13 @@ public class IngredienteRicetta   extends RushObject {
     public IngredienteRicetta(){
 
     }
+
+    public IngredienteRicetta(String nome, int quantita, String unita) {
+        this.nome = nome;
+        this.quantita = quantita;
+        this.unita = unita;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -37,5 +44,14 @@ public class IngredienteRicetta   extends RushObject {
 
     public void setUnita(String unita) {
         this.unita = unita;
+    }
+
+    @Override
+    public String toString() {
+        return "IngredienteRicetta{" +
+                "nome='" + nome + '\'' +
+                ", quantita=" + quantita +
+                ", unita='" + unita + '\'' +
+                '}';
     }
 }

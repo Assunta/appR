@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.oropallo.assunta.recipes.MainActivity">
+    tools:context="com.oropallo.assunta.recipes.UserSettingsActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,16 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_main" />
 
-    <Button
-        android:text=""
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        android:id="@+id/buttonHide"
-        android:layout_gravity="top|right"
-        android:layout_marginRight="115dp"
-        android:visibility="invisible"
-        android:layout_marginTop="30dp" />
 
 </android.support.design.widget.CoordinatorLayout>

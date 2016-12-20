@@ -67,6 +67,7 @@ public class AddRicettaFragment3 extends Fragment {
                     public void complete() {
                         //controllare se c'è un'immagine e salvarla
                         if(image!=null) {
+
                             RushBitmapFile file = new RushBitmapFile(getContext().getFilesDir().getAbsolutePath().concat(r.getId()));
                             try {
                                 file.setImage(image);
