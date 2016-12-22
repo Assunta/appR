@@ -1,12 +1,14 @@
 package com.oropallo.assunta.recipes.domain;
 
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import co.uk.rushorm.android.RushBitmapFile;
 import co.uk.rushorm.core.RushSearch;
@@ -76,11 +78,36 @@ public class DBManager {
         List<Ricetta> result= new ArrayList<Ricetta>();
         for(Ricetta r: allRicette){
             for(IngredienteRicetta r2: new RushSearch().whereChildOf(r, "ingredientiList").find(IngredienteRicetta.class)) {
-                if (r2.getNome().equalsIgnoreCase(ingrediente))
-                    result.add(r);
+                if(r2.getNome().toLowerCase().trim().contains(ingrediente.toLowerCase().trim()))
+                    if(!result.contains(r))result.add(r);
             }
         }
         return result;
+    }
+
+    public static List<Ricetta> getBookmarks(){
+        List<Bookmark> bookmarks= new RushSearch().find(Bookmark.class);
+        List<Ricetta> ricette= new ArrayList<Ricetta>();
+        for(Bookmark b :bookmarks){
+            ricette.add(DBManager.getRicetta(b.getIdRicetta()));
+        }
+        return ricette;
+    }
+
+    public static void addBookmark(Bookmark b){
+        b.save();
+    }
+
+    public static boolean isBookmarked(String id){
+        Bookmark b= new RushSearch().whereEqual("idRicetta",id).findSingle(Bookmark.class);
+        if(b!=null)
+            return true;
+        return false;
+    }
+
+    public static void removeBookmark(String id){
+        Bookmark b= new RushSearch().whereEqual("idRicetta",id).findSingle(Bookmark.class);
+        b.delete();
     }
 
 

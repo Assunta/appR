@@ -55,5 +55,13 @@
             android:checked="true" />
     </RadioGroup>
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonaURL"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button2" />
+
 
 </RelativeLayout>

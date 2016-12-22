@@ -130,7 +130,17 @@ public class SearchResultActivity extends AppCompatActivity {
                     Log.d("Debug", "Ricetta non trovata");
                     setNoResult();
                 }
-        }
+            }
+            else if(type.equals("SEARCH_BOOKMARK")){
+                List<Ricetta> result= DBManager.getBookmarks();
+                if(result!=null && result.size()>0){
+                    recyclerView.setAdapter(new AdapterMain(result));
+                    Log.d("DEBUG", "ricette: " + result.size());
+                }else {
+                    Log.d("Debug", "Ricetta non trovata");
+                    setNoResult();
+                }
+            }
         }
     }
 

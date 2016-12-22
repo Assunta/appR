@@ -45,4 +45,6 @@
     <string name="aggiungi">Aggiungi</string>
     <string name="importa_ricetta">Importa ricetta</string>
     <string name="aggiungi_ricetta">Aggiungi ricetta</string>
+    <string name="add_bookmark">Add bookmark</string>
+    <string name="searchbookmark">searchBookmark</string>
 </resources>

@@ -3,6 +3,7 @@ package com.oropallo.assunta.recipes;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -56,6 +57,13 @@ public class RicettaActivityFragment extends Fragment {
         //TODO controllo su id exception
         r= DBManager.getRicetta(id);
         Log.d("DEBUG", r.toString());
+
+        //Boookmark
+        ImageView bookmark =(ImageView) rootView.findViewById(R.id.imageViewBookmarkRicetta);
+        if(DBManager.isBookmarked(r.getId()))
+            bookmark.setVisibility(View.VISIBLE);
+        else
+            bookmark.setVisibility(View.INVISIBLE);
 
         ArrayList<String> procedimento=new ArrayList<String>();
         TextView nome= (TextView)rootView.findViewById(R.id.name_ricetta);
@@ -306,7 +314,7 @@ public class RicettaActivityFragment extends Fragment {
     }
 
     //TODO gestire Refresh MainActivity.....
-    private void restartActivty(){
+    public void restartActivty(){
         Intent intent= new Intent(this.getContext(), RicettaActivity.class);
         intent.putExtra("Ricetta", r.getId());
         startActivity(intent);

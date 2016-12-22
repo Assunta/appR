@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 
+import com.oropallo.assunta.recipes.domain.Bookmark;
+import com.oropallo.assunta.recipes.domain.DBManager;
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 import com.oropallo.assunta.recipes.domain.Ricetta;
 
@@ -68,6 +70,15 @@ public class RicettaActivity extends AppCompatActivity {
 
         if(id == R.id.action_home) {
             finish();
+        }
+        if(id == R.id.action_add_bookmark) {
+            FragmentManager fragmentManager= getSupportFragmentManager();
+            RicettaActivityFragment f=(RicettaActivityFragment) fragmentManager.findFragmentById(R.id.fragment_container_ricetta);
+            Ricetta r= f.getRicetta();
+            if(!DBManager.isBookmarked(r.getId()))
+            DBManager.addBookmark(new Bookmark(r.getId()));
+            else DBManager.removeBookmark(r.getId());
+            f.restartActivty();
         }
         if(id== R.id.action_delete){
             final Context context=this;

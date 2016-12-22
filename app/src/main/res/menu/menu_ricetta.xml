@@ -18,4 +18,9 @@
         android:title="@string/action_delete"
         app:showAsAction="always"
         android:icon="@android:drawable/ic_menu_delete" />
+    <item
+        android:id="@+id/action_add_bookmark"
+        android:title="@string/add_bookmark"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_action_name" />
 </menu>

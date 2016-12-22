@@ -21,6 +21,11 @@
         android:title="@string/action_search"
         appcompat:showAsAction="always"
         android:icon="@android:drawable/ic_menu_more" />
+    <item
+        android:id="@+id/action_filtra_bookmark"
+        android:title="@string/searchbookmark"
+        appcompat:showAsAction="always"
+        android:icon="@drawable/ic_action_show_bookmarks" />
 
 
 </menu>

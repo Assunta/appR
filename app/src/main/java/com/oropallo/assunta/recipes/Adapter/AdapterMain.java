@@ -95,6 +95,7 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
             }
         });
         holder.textView2.setText(ricetta.getNome());
+
         // attach click listener to folding cell
         holder.fc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +127,7 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
         private  Button buttonInfo;
         private ShapeImageView imageF;
         private FoldingCell fc;
+
         public MainViewHolder(View itemView) {
             super(itemView);
             //Unfolded
@@ -144,6 +146,7 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
             textView2= (TextView)itemView.findViewById(R.id.textViewFolded);
 
            imageF = (ShapeImageView) itemView.findViewById(R.id.imageView2);
+
 
         }
 

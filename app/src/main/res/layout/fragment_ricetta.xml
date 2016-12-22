@@ -144,5 +144,14 @@
         android:layout_marginTop="17dp"
         android:background="@color/spots_dialog_color" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_bookmark"
+        android:id="@+id/imageViewBookmarkRicetta"
+        android:background="@color/md_white_1000"
+        android:layout_below="@+id/imageButtonEditNome"
+        android:layout_alignStart="@+id/imageButtonEditNome" />
+
 </RelativeLayout>
 </ScrollView>

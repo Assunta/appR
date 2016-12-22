@@ -33,6 +33,7 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.oropallo.assunta.recipes.Adapter.AdapterMain;
 import com.oropallo.assunta.recipes.Constant.Ingredienti;
+import com.oropallo.assunta.recipes.domain.Bookmark;
 import com.oropallo.assunta.recipes.domain.DBManager;
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 import com.oropallo.assunta.recipes.domain.Ricetta;
@@ -88,9 +89,11 @@ public class MainActivity extends AppCompatActivity
         classes.add(Ricetta.class);
         classes.add(IngredienteRicetta.class);
         classes.add(RushBitmapFile.class);
+        classes.add(Bookmark.class);
         AndroidInitializeConfig config = new AndroidInitializeConfig(getApplicationContext());
         config.setClasses(classes);
         RushCore.initialize(config);
+
 
         //show tutorial
         SharedPreferences sharedPrefs = PreferenceManager
@@ -162,6 +165,10 @@ public class MainActivity extends AppCompatActivity
         if(id==R.id.action_filtra_category)
         {
             advancedSearch();
+        }
+        if(id==R.id.action_filtra_bookmark)
+        {
+            bookmarkSearch();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -306,6 +313,12 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
+    }
+
+    private void bookmarkSearch(){
+        Intent i= new Intent(this.getApplicationContext(),SearchResultActivity.class);
+        i.putExtra("TYPE", "SEARCH_BOOKMARK");
+        startActivity(i);
     }
 }
 

@@ -1,16 +1,13 @@
 package com.oropallo.assunta.recipes;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -20,10 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.oropallo.assunta.recipes.domain.DBManager;
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 import com.oropallo.assunta.recipes.domain.Ricetta;
 
@@ -34,6 +29,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,8 +40,6 @@ import java.util.regex.Pattern;
 import co.uk.rushorm.android.RushBitmapFile;
 import co.uk.rushorm.core.RushCallback;
 import dmax.dialog.SpotsDialog;
-
-import static android.R.attr.data;
 
 public class ParserRicetta extends AppCompatActivity {
     private Context context=this;
@@ -71,7 +65,15 @@ public class ParserRicetta extends AppCompatActivity {
                 String siteUrl = editUrl.getText().toString();
                 dialog = new SpotsDialog(v.getContext());
                 dialog.show();
-                new ParseURL().execute(new String[]{siteUrl});
+                new ParseURLGialloZafferano().execute(new String[]{siteUrl});
+            }
+        });
+        final Button button2=(Button)findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String siteUrl = editUrl.getText().toString();
+                new ParseURLCucchiaioDArgento().execute(new String[]{siteUrl});
             }
         });
 
@@ -99,8 +101,67 @@ public class ParserRicetta extends AppCompatActivity {
         }
     }
 
+    private class ParseURLCucchiaioDArgento extends AsyncTask<String, Void, Integer> {
+        private Ricetta ricetta;
+        @Override
+        protected Integer doInBackground(String... strings){
+            try {
+                ricetta = new Ricetta();
+                String image="";
+                String nome="";
+                String porzioni="";
+                /*Log.d("JSwa", "Connecting to [" + strings[0] + "]");
+                Document doc = Jsoup.connect(strings[0]).get();
+                Log.d("JSwa", "Connected to [" + strings[0] + "]");*/
+                File input = new File("/storage/emulated/0/RicettaMaritozzi.html");
+                Document doc = Jsoup.parse(input, "UTF-8", "http://www.cucchiaio.it/ricetta/");
+                // Get document (HTML page) title
+                String title = doc.title();
+                Log.d("JSwA", "Title [" + title + "]");
+                Elements metaInfoTitle= doc.select("meta[property=og:title]");
+                if(metaInfoTitle!=null){
+                    nome=metaInfoTitle.attr("content");
+                    Log.d("DEBUG", nome);
+                }
+                //prendo l'indirizzo dell'immagine
+                Elements elements= doc.getElementsByClass("auto");
+                Element element= elements.get(0);
+                image=element.getElementsByTag("img").attr("src").toString();
+                Log.d("DEBUG", "Image "+image);
 
-    private class ParseURL extends AsyncTask<String, Void, Integer> {
+                elements= doc.getElementsByTag("div");
+                for(Element e: elements){
+                    //per cercare il numero di porzioni
+                    if(e.attr("class").equalsIgnoreCase("parbase recipe_info info")){
+                        Elements metaPorzioni= e.getElementsByTag("meta");
+                        for(Element element1: metaPorzioni) {
+                            String s = element1.toString();
+                            if(s.contains("itemprop=\"recipeYield\""))
+                                porzioni= s.substring(s.indexOf("content=\"")).replace("content=\"","").replace("porzioni\">","");
+                        }
+                    }
+                    //TODO aggiungere ricerca ingrdienti, vedere che si può fare con il link della pagina degli ingredienti
+                    elements= doc.getElementsByTag("span");
+                    Log.d("DEBUG", elements.size()+"");
+                    for(Element e2: elements){
+                        if(e2.className().equalsIgnoreCase("f_t3_14_lh_20"))
+                        Log.d("DEBUG", e2.toString());
+                    }
+                }
+
+                }catch (Throwable t) {
+                t.printStackTrace();
+                return 404;
+            }
+            return 200;
+        }
+        @Override
+        protected void onPostExecute(Integer r) {
+
+        }
+    }
+
+    private class ParseURLGialloZafferano extends AsyncTask<String, Void, Integer> {
         private Ricetta ricetta;
 
         @Override
@@ -254,7 +315,7 @@ public class ParserRicetta extends AppCompatActivity {
                     }
                     ingr = ingr.replace(quantita, "").trim();
                 }
-                IngredienteRicetta ingredienteRicetta = new IngredienteRicetta(nome, Integer.parseInt(quantita.trim()), ingr);
+                IngredienteRicetta ingredienteRicetta = new IngredienteRicetta(nome.trim(), Integer.parseInt(quantita.trim()), ingr);
                 ingredienteRicettaList.add(ingredienteRicetta);
             }
             return ingredienteRicettaList;
