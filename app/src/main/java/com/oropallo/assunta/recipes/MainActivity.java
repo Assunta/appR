@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +29,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.oropallo.assunta.recipes.Adapter.AdapterMain;
@@ -82,6 +84,16 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+        FloatingActionButton floatingimportRicetta = (FloatingActionButton) findViewById(R.id.fabImportRicetta);
+        floatingimportRicetta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(v.getContext(), ParserRicetta.class);
+                startActivity(i);
+            }
+        });
+        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.fabMenu);
+
 
         // Rush is initialization
         List<Class<? extends Rush>> classes= new ArrayList<>();

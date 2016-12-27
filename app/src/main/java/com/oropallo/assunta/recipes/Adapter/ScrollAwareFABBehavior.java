@@ -12,6 +12,13 @@ import android.view.View;
  * Created by Assunta on 09/12/2016.
  */
 
+/**
+ * classe inutilizzata perchè ora ho un FloatingActionMenu, non piu' un normale FloatingActionButton
+ * nella main activity...
+ * per utilizzare la classe è necessario aggiungere:
+ *  app:layout_behavior="com.oropallo.assunta.recipes.Adapter.ScrollAwareFABBehavior"
+ *  al FloatingActionButton di iteresse
+ */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
     public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
         super();

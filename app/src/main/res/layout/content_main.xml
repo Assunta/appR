@@ -21,20 +21,40 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_main" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_addButtonColorNormal="@color/colorPrimaryDark"
+        app:fab_addButtonColorPressed="@color/md_white_1000"
+        app:fab_addButtonPlusIconColor="@color/md_white_1000"
+        app:fab_addButtonSize="mini"
+        android:clickable="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="bottom|right"
+        app:layout_anchorGravity="bottom|right|end"
+       >
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fabImportRicetta"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/md_white_1000"
+        android:src="@android:drawable/stat_sys_download"
+        />
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/md_white_1000"
+        android:src="@android:drawable/ic_menu_edit"
         android:id="@+id/fabAddRicetta"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="15dp"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:layout_gravity="bottom|right"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="com.oropallo.assunta.recipes.Adapter.ScrollAwareFABBehavior"/>
+        android:background="@color/colorPrimaryDark" />
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

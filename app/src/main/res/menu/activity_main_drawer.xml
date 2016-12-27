@@ -8,7 +8,7 @@
                 android:title="Nuova ricetta" />
             <item
             android:id="@+id/parser"
-            android:icon="@android:drawable/ic_menu_add"
+            android:icon="@android:drawable/stat_sys_download"
             android:title="@string/importa_ricetta" />
         </menu>
     </item>

@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -61,6 +64,8 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
        final Ricetta ricetta= list.get(position);
         holder.textView.setText(ricetta.getNome());
         holder.textCategory.setText("Categoria: "+ricetta.getCategoria());
+        //holder.textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        //holder.textView.setSelected(true);
         if(ricetta.isHasImage()){
             Bitmap image = DBManager.getImage(mContext.getFilesDir().getAbsolutePath().concat(ricetta.getId()));
             holder.imageV.setImageBitmap(image);
@@ -95,7 +100,7 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
             }
         });
         holder.textView2.setText(ricetta.getNome());
-
+        holder.fc.fold(true);
         // attach click listener to folding cell
         holder.fc.setOnClickListener(new View.OnClickListener() {
             @Override
