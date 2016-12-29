@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.oropallo.assunta.recipes.R;
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +37,13 @@ public class AdapterIngredienti extends RecyclerView.Adapter<AdapterIngredienti.
     @Override
     public void onBindViewHolder(AdapterIngredienti.IngredientiViewHolder holder, int position) {
         holder.nomeIngrediente.setText(ingredienti.get(position).getNome());
-        int qu= ingredienti.get(position).getQuantita();
+        double qu= ingredienti.get(position).getQuantita();
+        //per evitare di visualizzare decimali inutili:
+        String formattedQuantita= formatQuantita(qu);
         if(qu==0)
             holder.quantita.setText(ingredienti.get(position).getUnita());
         else
-            holder.quantita.setText(qu+ingredienti.get(position).getUnita());
+            holder.quantita.setText(formattedQuantita+ingredienti.get(position).getUnita());
     }
 
     @Override
@@ -51,6 +54,15 @@ public class AdapterIngredienti extends RecyclerView.Adapter<AdapterIngredienti.
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    private String formatQuantita(double q){
+        /*if(q==(long)q)
+            return String.format("%.d",(long) q);
+        else
+            return String.format("%s",q);*/
+        DecimalFormat df= new DecimalFormat("0.##");
+        return df.format(q);
     }
 
     public class IngredientiViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

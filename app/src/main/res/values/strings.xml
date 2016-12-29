@@ -47,4 +47,7 @@
     <string name="aggiungi_ricetta">Aggiungi ricetta</string>
     <string name="add_bookmark">Add bookmark</string>
     <string name="searchbookmark">searchBookmark</string>
+    <string name="calculate">calculate</string>
+    <string name="calculate_num_porz">Inserisci il nuovo numero di porzioni</string>
+    <string name="calculate_string">Calcola</string>
 </resources>

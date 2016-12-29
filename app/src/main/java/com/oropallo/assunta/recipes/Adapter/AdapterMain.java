@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-
 import com.oropallo.assunta.recipes.R;
 import com.oropallo.assunta.recipes.RicettaActivity;
 import com.oropallo.assunta.recipes.domain.DBManager;
@@ -99,7 +98,10 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
                 mContext.startActivity(intent);
             }
         });
-        holder.textView2.setText(ricetta.getNome());
+        String nome=ricetta.getNome();
+        if(nome.length()>17)
+            nome=nome.subSequence(0,15).toString()+"...";
+        holder.textView2.setText(nome);
         holder.fc.fold(true);
         // attach click listener to folding cell
         holder.fc.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +150,7 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
             fc  = (FoldingCell) itemView.findViewById(R.id.folding_cell);
 
             //Folded
-            textView2= (TextView)itemView.findViewById(R.id.textViewFolded);
+            textView2= (TextView) itemView.findViewById(R.id.textViewFolded);
 
            imageF = (ShapeImageView) itemView.findViewById(R.id.imageView2);
 

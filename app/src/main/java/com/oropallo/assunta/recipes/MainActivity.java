@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //Floating button add ricetta
         FloatingActionButton floatingActionButton= (FloatingActionButton) findViewById(R.id.fabAddRicetta);

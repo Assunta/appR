@@ -9,14 +9,14 @@ import co.uk.rushorm.core.RushObject;
 
 public class IngredienteRicetta   extends RushObject {
     private String nome;
-    private int quantita;
+    private double quantita;
     private String unita;
 
     public IngredienteRicetta(){
 
     }
 
-    public IngredienteRicetta(String nome, int quantita, String unita) {
+    public IngredienteRicetta(String nome, double quantita, String unita) {
         this.nome = nome;
         this.quantita = quantita;
         this.unita = unita;
@@ -26,7 +26,7 @@ public class IngredienteRicetta   extends RushObject {
         return nome;
     }
 
-    public int getQuantita() {
+    public double getQuantita() {
         return quantita;
     }
 

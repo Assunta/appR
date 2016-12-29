@@ -9,11 +9,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_home"
-        android:title="@string/action_settings"
-        app:showAsAction="always"
-        android:icon="?attr/homeAsUpIndicator" />
-    <item
         android:id="@+id/action_delete"
         android:title="@string/action_delete"
         app:showAsAction="always"
@@ -23,4 +18,9 @@
         android:title="@string/add_bookmark"
         app:showAsAction="always"
         android:icon="@drawable/ic_action_name" />
+    <item
+        android:id="@+id/action_calculate"
+        android:title="@string/calculate"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_claculate" />
 </menu>

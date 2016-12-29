@@ -51,7 +51,7 @@
         android:clickable="true"
         app:fab_colorNormal="@color/colorPrimary"
         app:fab_colorPressed="@color/md_white_1000"
-        android:src="@android:drawable/ic_menu_edit"
+        android:src="@drawable/ic_edit"
         android:id="@+id/fabAddRicetta"
         android:background="@color/colorPrimaryDark" />
     </com.getbase.floatingactionbutton.FloatingActionsMenu>

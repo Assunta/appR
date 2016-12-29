@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,6 +30,10 @@ public class ActivityPageSlidingAddRicetta  extends AppCompatActivity {
         ricetta=new Ricetta();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_sliding_add_ricetta);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         //per non visualizzare la tastiera
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -107,5 +113,18 @@ public class ActivityPageSlidingAddRicetta  extends AppCompatActivity {
 
     public void setRicetta(Ricetta r){
         this.ricetta=r;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
