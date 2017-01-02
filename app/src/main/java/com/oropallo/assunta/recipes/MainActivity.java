@@ -1,5 +1,8 @@
 package com.oropallo.assunta.recipes;
 
+import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -7,9 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,11 +35,14 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
+import com.github.akashandroid90.imageletter.MaterialLetterIcon;
 import com.oropallo.assunta.recipes.Adapter.AdapterMain;
 import com.oropallo.assunta.recipes.Constant.Ingredienti;
 import com.oropallo.assunta.recipes.domain.Bookmark;
@@ -57,6 +66,9 @@ public class MainActivity extends AppCompatActivity
     private Menu menu;
     private  List<Ricetta> list;
     private  RecyclerView recyclerView;
+    private NavigationView navigationView;;
+    private  final int MY_PERMISSIONS_GET_ACCOUNTS=0;
+    private  final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
 
     @Override
     protected void onResume() {
@@ -120,7 +132,8 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setNavigationHeader(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -131,6 +144,14 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setLayoutManager(llm);
         final AdapterMain adapterMain= new AdapterMain(list);
         recyclerView.setAdapter(adapterMain);
+
+        //controllo se ho il permesso di lettura/scrittura
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
 
     }
 
@@ -332,6 +353,66 @@ public class MainActivity extends AppCompatActivity
         Intent i= new Intent(this.getApplicationContext(),SearchResultActivity.class);
         i.putExtra("TYPE", "SEARCH_BOOKMARK");
         startActivity(i);
+    }
+
+    private String getUsernameOwner() {
+        AccountManager manager = AccountManager.get(this);
+        //check GET_ACCOUNTS permission
+        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.GET_ACCOUNTS)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.GET_ACCOUNTS},MY_PERMISSIONS_GET_ACCOUNTS);
+        }
+        Account[] accounts = manager.getAccountsByType("com.google");
+        List<String> possibleEmails= new ArrayList<String>();
+        for(Account a: accounts){
+            possibleEmails.add(a.name);
+        }
+        if(!possibleEmails.isEmpty() && possibleEmails.get(0)!=null){
+            String email= possibleEmails.get(0);
+            return email;
+        }
+        return null;
+    }
+
+    private void setNavigationHeader(NavigationView navigationView){
+        View headerView = navigationView.getHeaderView(0);
+        TextView textViewUserEMail = (TextView) headerView.findViewById(R.id.textView_user_email);
+        MaterialLetterIcon letterIcon=(MaterialLetterIcon) headerView.findViewById(R.id.imageView);
+        String userEmail= getUsernameOwner();
+        if(userEmail!=null) {
+            textViewUserEMail.setText(userEmail);
+            letterIcon.setLetter(userEmail.charAt(0)+"");
+        }
+        else
+            textViewUserEMail.setText("");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_GET_ACCOUNTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setNavigationHeader(navigationView);
+                } else {
+                    Log.d("DEBUG", "permission get_accounts denied");
+                }
+                return;
+            }
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Log.d("DEBUG", "permission raed/write denied");
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
 

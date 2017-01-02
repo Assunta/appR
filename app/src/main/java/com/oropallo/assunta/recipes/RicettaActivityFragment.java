@@ -76,7 +76,11 @@ public class RicettaActivityFragment extends Fragment {
             categoria.setText("Categoria: "+r.getCategoria());
             numPersone.setText("Numero persone/porzioni: "+ r.getNum_persone());
             nota.setText("Nota: "+ r.getNota());
-            procedimento.add(r.getProcedimento());
+            String[] itemProcedimento= r.getProcedimento().split("\n");
+            for(String item: itemProcedimento)
+            procedimento.add(item);
+           // procedimento.add(r.getProcedimento());
+            //Log.d("DEBUG", itemProcedimento.length+"");
         }
         else Log.d("Debug", "Ricetta nulla");
 

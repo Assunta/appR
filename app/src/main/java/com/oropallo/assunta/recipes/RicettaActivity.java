@@ -96,7 +96,7 @@ public class RicettaActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             RicettaActivityFragment f = (RicettaActivityFragment) fragmentManager.findFragmentById(R.id.fragment_container_ricetta);
             final Ricetta r = f.getRicetta();
-            if (r.getNum_persone() == null || r.getNum_persone().equals('0') || r.getNum_persone().equals("")) {
+            if (r.getNum_persone() == null || r.getNum_persone().trim().equals("0") || r.getNum_persone().trim().equals("")) {
                 AlertDialog dialog = new AlertDialog.Builder(this).create();
                 dialog.setTitle("Impossibile eseguire l'operazione");
                 dialog.setMessage("impossibile calcolare gli ingredienti per un nuomero di porzioni differente; numero di porzioni non specificato per questa ricetta");
@@ -196,6 +196,8 @@ public class RicettaActivity extends AppCompatActivity {
         ricetta.setIngredientiList(newIngredienti);
         return ricetta;
     }
+
+
 
 
 }
