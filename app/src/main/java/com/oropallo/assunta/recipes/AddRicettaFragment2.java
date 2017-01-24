@@ -1,6 +1,7 @@
 package com.oropallo.assunta.recipes;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,7 +67,7 @@ public class AddRicettaFragment2 extends Fragment {
             recyclerIngredienti.setLayoutManager(llm);
             final AdapterAddIngrediente adapterAddIngrediente= new AdapterAddIngrediente(ingredienti);
             recyclerIngredienti.setAdapter(adapterAddIngrediente);
-
+            final Context context= this.getContext();
             //addButton
             ImageButton addButton= (ImageButton) view.findViewById(R.id.addButton);
             addButton.setOnClickListener(new View.OnClickListener(){
@@ -79,7 +80,7 @@ public class AddRicettaFragment2 extends Fragment {
                     final View v_view= inflater.inflate(R.layout.dialog_add_ingrediente, null);
                     //AutoCompleteTextView e set Adapter
                     final AutoCompleteTextView text= (AutoCompleteTextView) v_view.findViewById(R.id.autoCompleteTextViewAddIngrediente);
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti().getArrayIngredienti());
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti(context).getArrayIngredienti());
                     text.setAdapter(adapter);
                     //TextView quantità
                     final TextView quantita= (TextView)v_view.findViewById(R.id.editText_quantita_dialog);

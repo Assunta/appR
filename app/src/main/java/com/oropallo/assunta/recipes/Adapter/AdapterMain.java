@@ -99,8 +99,8 @@ public class AdapterMain  extends RecyclerView.Adapter<AdapterMain.MainViewHolde
             }
         });
         String nome=ricetta.getNome();
-        if(nome.length()>17)
-            nome=nome.subSequence(0,15).toString()+"...";
+        /*if(nome.length()>17)
+            nome=nome.subSequence(0,15).toString()+"...";*/
         holder.textView2.setText(nome);
         holder.fc.fold(true);
         // attach click listener to folding cell

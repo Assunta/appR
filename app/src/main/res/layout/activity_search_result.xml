@@ -16,18 +16,21 @@
 
     <cn.refactor.library.ShapeImageView
         app:shape="Circle"
-        app:borderWidth="2dp"
-        app:borderColor="@color/spots_dialog_color"
-        android:src="@mipmap/ic_food"
+        app:borderWidth="1dp"
+        app:borderColor="@color/md_white_1000"
+        android:src="@mipmap/ic_icon"
         app:backgroundColor="@color/cardview_light_background"
         android:id="@+id/imageViewSearch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_marginTop="50dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:scaleType="center"
-        android:layout_marginLeft="150dp"
-        android:layout_height="500dp" />
+
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false" />
 
     <TextView
         android:text=""
@@ -35,7 +38,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewSearch"
         android:textSize="24sp"
-        android:fontFamily="cursive" />
+        android:fontFamily="cursive"
+        android:textAlignment="center" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

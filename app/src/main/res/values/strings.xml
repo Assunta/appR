@@ -50,4 +50,11 @@
     <string name="calculate">calculate</string>
     <string name="calculate_num_porz">Inserisci il nuovo numero di porzioni</string>
     <string name="calculate_string">Calcola</string>
+    <string-array name="limit_show_ricette">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>Tutte</item>
+    </string-array>
 </resources>

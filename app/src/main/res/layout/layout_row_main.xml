@@ -110,7 +110,8 @@
                 android:layout_row="0"
                 android:layout_column="2"
                 android:freezesText="true"
-
+                android:maxLines="1"
+                android:ellipsize="end"
                 />
 
             <cn.refactor.library.ShapeImageView

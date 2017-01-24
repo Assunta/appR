@@ -9,6 +9,12 @@
             android:summary=""
             android:title="Show tutorial" >
         </CheckBoxPreference>
+        <ListPreference
+            android:defaultValue="10"
+            android:title="Numero di ricette da visualizzare"
+            android:entries="@array/limit_show_ricette"
+            android:entryValues="@array/limit_show_ricette"
+            android:key="limit" />
     </PreferenceCategory>
 
 </PreferenceScreen>

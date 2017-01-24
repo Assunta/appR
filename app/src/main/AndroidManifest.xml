@@ -1,11 +1,12 @@
 <?xml version="1.1" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.oropallo.assunta.recipes">
+    package="com.oropallo.assunta.recipes"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
+    <uses-sdk tools:overrideLibrary="com.ramotion.foldingcell"></uses-sdk>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_icon"
@@ -44,10 +45,6 @@
             android:label="@string/title_activity_ricetta"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".AddRicettaActivity"
-            android:label="@string/title_activity_add_ricetta"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ActivityPageSlidingAddRicetta"
             android:label="@string/title_activity_page_sliding_add_ricetta"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -67,6 +64,7 @@
             android:label="@string/title_activity_user_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ParserRicetta"></activity>
+        <activity android:name=".googleDrive.CreateFileActivity" />
     </application>
 
 </manifest>

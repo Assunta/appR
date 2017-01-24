@@ -94,15 +94,25 @@
             android:layout_alignParentTop="false"
             android:adjustViewBounds="true"
             android:cropToPadding="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/ic_add_image_icon"
+            android:id="@+id/imageView3"
+            android:background="@color/colorPrimaryDark"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/imageView_add_ricetta" />
+
         <Button
             android:text="Add photo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button_add_immagine_ricetta"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
+            android:background="@color/colorPrimaryDark"
             android:layout_below="@+id/imageView_add_ricetta"
-            android:layout_alignStart="@id/imageView_add_ricetta" />
+            android:layout_toEndOf="@+id/imageView3"
+            android:textColor="@color/md_white_1000" />
 
     </RelativeLayout>
 

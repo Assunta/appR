@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Sincronizza"
+        android:id="@+id/sycnhornizeItem"
+        android:icon="@android:drawable/stat_notify_sync" />
     <item android:title="@string/aggiungi_ricetta">
         <menu>
             <item
                 android:id="@+id/addMano"
-                android:icon="@android:drawable/ic_menu_edit"
+                android:icon="@drawable/ic_edit"
                 android:title="Nuova ricetta" />
             <item
             android:id="@+id/parser"

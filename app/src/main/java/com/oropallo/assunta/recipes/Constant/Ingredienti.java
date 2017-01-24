@@ -1,5 +1,14 @@
 package com.oropallo.assunta.recipes.Constant;
 
+import android.content.Context;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +17,10 @@ import java.util.List;
  */
 
 public class Ingredienti {
+    private String FILENAME="ingredienti.txt";
     List<String> ingredienti;
 
-    public Ingredienti(){
-        //TODO gestire diversamente, con una costante o con una lettura sul db
+    public Ingredienti(Context context){
         ingredienti= new ArrayList<String>();
         ingredienti.add("farina");
         ingredienti.add("uova");
@@ -19,8 +28,40 @@ public class Ingredienti {
         ingredienti.add("formaggio");
         ingredienti.add("formaggio pecorino");
         ingredienti.add("zucchero");
+        //TODO rivedere
+       /* try {
+            InputStream inputStream= context.openFileInput(FILENAME);
+            if(inputStream!=null){
+                InputStreamReader reader= new InputStreamReader(inputStream);
+                BufferedReader bufferedReader= new BufferedReader(reader);
+                String valore="";
+                while((valore=bufferedReader.readLine())!=null)
+                    ingredienti.add(valore);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            ingredienti.add("farina");
+            ingredienti.add("uova");
+            ingredienti.add("sale");
+            ingredienti.add("formaggio");
+            ingredienti.add("formaggio pecorino");
+            ingredienti.add("zucchero");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
+    public void writeFirstTime(Context context){
+        try {
+            OutputStreamWriter writer= new OutputStreamWriter(context.openFileOutput(FILENAME, Context.MODE_APPEND));
+            writer.write("farina\n");
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public List<String> getIngredienti() {
         return ingredienti;
     }

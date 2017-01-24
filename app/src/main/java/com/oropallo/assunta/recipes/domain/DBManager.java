@@ -11,6 +11,8 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import co.uk.rushorm.android.RushBitmapFile;
+import co.uk.rushorm.core.Rush;
+import co.uk.rushorm.core.RushCore;
 import co.uk.rushorm.core.RushSearch;
 import co.uk.rushorm.core.search.RushWhere;
 
@@ -56,6 +58,17 @@ public class DBManager {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static List<Bitmap> getAllImages(){
+        List<RushBitmapFile> objects = new RushSearch().find(RushBitmapFile.class);
+        List<Bitmap> images= new ArrayList<Bitmap>();
+        for(RushBitmapFile file: objects){
+        try {
+            images.add(file.getImage());
+        } catch (IOException e) { }
+        }
+        return images;
     }
 
     public static Ricetta getRicettaByName(String name){
@@ -110,6 +123,25 @@ public class DBManager {
         b.delete();
     }
 
+    public static int getNumeroRicette(){
+       return (int) new RushSearch().count(Ricetta.class);
+    }
+
+    public static String exportRicette(){
+        List<Ricetta> list= getAllRicette();
+        String jsonString= RushCore.getInstance().serialize(list);
+        return jsonString;
+    }
+
+    public static List<Ricetta> importRicette(String jsonString){
+        List<Ricetta> ricette= new ArrayList<Ricetta>();
+        List<Rush>list=RushCore.getInstance().deserialize(jsonString);
+        for(Rush item:list){
+            Ricetta r= (Ricetta) item;
+            ricette.add(r);
+        }
+        return ricette;
+    }
 
 
 }

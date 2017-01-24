@@ -31,12 +31,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -49,6 +47,7 @@ import com.oropallo.assunta.recipes.domain.Bookmark;
 import com.oropallo.assunta.recipes.domain.DBManager;
 import com.oropallo.assunta.recipes.domain.IngredienteRicetta;
 import com.oropallo.assunta.recipes.domain.Ricetta;
+import com.oropallo.assunta.recipes.googleDrive.CreateFileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +66,7 @@ public class MainActivity extends AppCompatActivity
     private  List<Ricetta> list;
     private  RecyclerView recyclerView;
     private NavigationView navigationView;;
+    private int limit=10;
     private  final int MY_PERMISSIONS_GET_ACCOUNTS=0;
     private  final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
 
@@ -74,7 +74,11 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         //refresh list
-        list= DBManager.getAllRicetteWithLimit(10);
+        //check limit di ricette da visualizzare
+        String limitString=PreferenceManager
+                .getDefaultSharedPreferences(this).getString("limit","10").toString();
+        limit=checkLimit(limitString);
+        list= DBManager.getAllRicetteWithLimit(limit);
         final AdapterMain adapterMain= new AdapterMain(list);
         recyclerView.setAdapter(adapterMain);
 
@@ -107,24 +111,18 @@ public class MainActivity extends AppCompatActivity
         });
         final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.fabMenu);
 
-
-        // Rush is initialization
-        List<Class<? extends Rush>> classes= new ArrayList<>();
-        //add class to be saved
-        classes.add(Ricetta.class);
-        classes.add(IngredienteRicetta.class);
-        classes.add(RushBitmapFile.class);
-        classes.add(Bookmark.class);
-        AndroidInitializeConfig config = new AndroidInitializeConfig(getApplicationContext());
-        config.setClasses(classes);
-        RushCore.initialize(config);
-
+        //initializa RushDB
+        inizializationRushDB();
 
         //show tutorial
         SharedPreferences sharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
         if(sharedPrefs.getBoolean("prefShowTutorial",true)==true)
         addTap();
+
+        //check limit di ricette da visualizzare
+        String limitString=sharedPrefs.getString("limit","10").toString();
+        limit=checkLimit(limitString);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -136,8 +134,8 @@ public class MainActivity extends AppCompatActivity
         setNavigationHeader(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        list= DBManager.getAllRicetteWithLimit(10);
+        Log.d("DEBUG", "Visualizza: "+limit);
+        list= DBManager.getAllRicetteWithLimit(limit);
         recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -155,6 +153,34 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+    private int checkLimit(String limitString) {
+    //items of string array limit_show_ricette
+        switch (limitString){
+            case "5":
+                return 5;
+            case "10":
+                return 10;
+            case "15":
+                return 15;
+            case "20":
+                return 20;
+            default: return DBManager.getNumeroRicette();
+        }
+    }
+
+    private void inizializationRushDB() {
+        // Rush is initialization
+        List<Class<? extends Rush>> classes= new ArrayList<>();
+        //add class to be saved
+        classes.add(Ricetta.class);
+        classes.add(IngredienteRicetta.class);
+        classes.add(RushBitmapFile.class);
+        classes.add(Bookmark.class);
+        AndroidInitializeConfig config = new AndroidInitializeConfig(this);
+        config.setClasses(classes);
+        RushCore.initialize(config);
+    }
 
 
     @Override
@@ -225,6 +251,9 @@ public class MainActivity extends AppCompatActivity
         }else if(id==R.id.addMano){
             Intent i=new Intent(this, ActivityPageSlidingAddRicetta.class);
             startActivity(i);
+        }else if(id==R.id.sycnhornizeItem){
+            Intent i= new Intent(this, CreateFileActivity.class);
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -282,7 +311,7 @@ public class MainActivity extends AppCompatActivity
         LayoutInflater inflater =getLayoutInflater();
         final View v_view= inflater.inflate(R.layout.dialog_search_ingrediente, null);
         final AutoCompleteTextView text= (AutoCompleteTextView) v_view.findViewById(R.id.autoCompleteTextSearchIngrediente);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti().getArrayIngredienti());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti(this).getArrayIngredienti());
         text.setAdapter(adapter);
         builder.setView(v_view)
                 // Add action buttons
@@ -414,6 +443,7 @@ public class MainActivity extends AppCompatActivity
             // permissions this app might request
         }
     }
+
 }
 
 

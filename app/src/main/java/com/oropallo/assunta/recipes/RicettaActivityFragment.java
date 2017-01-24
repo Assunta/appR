@@ -216,7 +216,7 @@ public class RicettaActivityFragment extends Fragment {
                 final View v_view= inflater.inflate(R.layout.dialog_add_ingrediente, null);
                 //AutoCompleteTextView e set Adapter
                 final AutoCompleteTextView text= (AutoCompleteTextView) v_view.findViewById(R.id.autoCompleteTextViewAddIngrediente);
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti().getArrayIngredienti());
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(v_view.getContext(),android.R.layout.simple_dropdown_item_1line, new Ingredienti(getContext()).getArrayIngredienti());
                 text.setAdapter(adapter);
                 //TextView quantità
                 final TextView quantita= (TextView)v_view.findViewById(R.id.editText_quantita_dialog);
