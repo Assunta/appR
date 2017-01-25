@@ -50,6 +50,7 @@
     <string name="calculate">calculate</string>
     <string name="calculate_num_porz">Inserisci il nuovo numero di porzioni</string>
     <string name="calculate_string">Calcola</string>
+    <string name="sic_in_corso">Sincronizzazione in corso...</string>
     <string-array name="limit_show_ricette">
         <item>5</item>
         <item>10</item>

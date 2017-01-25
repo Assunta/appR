@@ -61,6 +61,10 @@ public class DBManager {
             return null;
         }
     }
+    public static RushBitmapFile getImageFile(String path){
+        RushBitmapFile file= new RushSearch().whereEqual("directory",path).findSingle(RushBitmapFile.class);
+        return file;
+    }
 
     public static List<Bitmap> getAllImages(){
         List<RushBitmapFile> objects = new RushSearch().find(RushBitmapFile.class);

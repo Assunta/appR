@@ -163,8 +163,7 @@ public class RicettaActivity extends AppCompatActivity {
                     RicettaActivityFragment f = (RicettaActivityFragment) fragmentManager.findFragmentById(R.id.fragment_container_ricetta);
                     Ricetta r = f.getRicetta();
                     if (r.isHasImage()) {
-                        //check delete elimina davver??
-                        RushBitmapFile file = new RushBitmapFile(context.getFilesDir().getAbsolutePath().concat(r.getId()));
+                        RushBitmapFile file = DBManager.getImageFile(context.getFilesDir().getAbsolutePath().concat(r.getId()));
                         file.delete();
                     }
                     r.delete();

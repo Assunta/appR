@@ -14,6 +14,7 @@
 
 package com.oropallo.assunta.recipes.googleDrive;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveFolder.DriveFileResult;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.oropallo.assunta.recipes.R;
 import com.oropallo.assunta.recipes.domain.DBManager;
 
 import java.io.File;
@@ -41,6 +43,8 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 /**
  * An activity to illustrate how to create a file.
  */
@@ -48,26 +52,38 @@ public class CreateFileActivity extends BaseDemoActivity {
 
     private static final String TAG = "CreateFileActivity";
     private DriveId mFolderDriveId;
-    private int countImage=0;
+    private int countFileDaSalvare=0;
+    private SpotsDialog dialog;
+    private Activity context= this;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dialog = new SpotsDialog(this);
+        dialog.show();
+        dialog.setMessage(getResources().getString(R.string.sic_in_corso));
+    }
 
     @Override
     public void onConnected(Bundle connectionHint) {
         super.onConnected(connectionHint);
+        //TODO controllare se esiste già la directory e i file
         //create Folder
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
                 .setTitle(this.getPackageName()).build();
         Drive.DriveApi.getRootFolder(getGoogleApiClient()).createFolder(
                 getGoogleApiClient(), changeSet).setResultCallback(callback);
         // create new contents resource: create file
+        //create file with db information
         Drive.DriveApi.newDriveContents(getGoogleApiClient())
                 .setResultCallback(driveContentsCallback);
 
         //create image file for all images
         Map<String,Bitmap> images= DBManager.getAllImagesWithName();
+        countFileDaSalvare=images.size();
         for(String name: images.keySet()){
             createFile(null, name, "image/bmp", images.get(name));
         }
-
     }
 
     /***********************************************************************
@@ -89,7 +105,6 @@ public class CreateFileActivity extends BaseDemoActivity {
                         OutputStream outputStream = cont.getOutputStream();
                         file.compress(Bitmap.CompressFormat.PNG,90,outputStream);
                         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                //TODO settare il nome in modo che non si perda il riferimento con la ricetta
                                 .setTitle(titl)
                                 .setMimeType("image/bmp")
                                 .setStarred(true).build();
@@ -100,7 +115,12 @@ public class CreateFileActivity extends BaseDemoActivity {
                                 DriveFile dFil = driveFileResult != null && driveFileResult.getStatus().isSuccess() ?
                                         driveFileResult.getDriveFile() : null;
                                 if (dFil != null) {
-                                    showMessage("Create file "+titl);
+                                    countFileDaSalvare--;
+                                    if(countFileDaSalvare==0){
+                                        dialog.dismiss();
+                                        context.finish();
+                                    }
+                                    //showMessage("Create file "+titl);
                                 } else {
                                     showMessage("Error while trying to create the file");
                                 }
@@ -162,7 +182,7 @@ public class CreateFileActivity extends BaseDemoActivity {
                 showMessage("Error while trying to create the file");
                 return;
             }
-            showMessage("Created a file with content: " + result.getDriveFile().getDriveId());
+            //showMessage("Created a file with content: " + result.getDriveFile().getDriveId());
             DriveId id= result.getDriveFile().getDriveId();
             Log.d(TAG, id+"");
         }
@@ -174,7 +194,7 @@ public class CreateFileActivity extends BaseDemoActivity {
                 showMessage("Error while trying to create the folder");
                 return;
             }
-            showMessage("Created a folder: " + result.getDriveFolder().getDriveId());
+            //showMessage("Created a folder: " + result.getDriveFolder().getDriveId());
             mFolderDriveId=result.getDriveFolder().getDriveId();
         }
     };
