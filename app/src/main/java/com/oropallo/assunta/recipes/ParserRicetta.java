@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +69,13 @@ public class ParserRicetta extends AppCompatActivity {
                 editUrl.setHint("http://www.ricette.com/paccheri-fritti");
             }
         });
+        RadioButton radioButtonRicetteInTV= (RadioButton) findViewById(R.id.radioButtonRicetteInTV);
+        radioButtonRicetteInTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editUrl.setHint("http://www.ricetteintv.com/la-prova-del-cuoco-torta-con-crema-al-limone-di-natalia-cattelani");
+            }
+        });
         //controllo se ho il permesso di internet
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.INTERNET)
@@ -88,6 +96,8 @@ public class ParserRicetta extends AppCompatActivity {
                     new ParseURLGialloZafferano().execute(new String[]{siteUrl});
                 }else if(id==R.id.radioButtonRicetteCom){
                     new ParseURLRicettePuntoCom().execute(new String[]{siteUrl});
+                }else if(id==R.id.radioButtonRicetteInTV) {
+                    new ParseURLRicetteInTV().execute(new String[]{siteUrl});
                 }
             }
         });
@@ -587,6 +597,172 @@ public class ParserRicetta extends AppCompatActivity {
             }
 
         }
+    private class ParseURLRicetteInTV extends AsyncTask<String, Void, Integer> {
+        private Ricetta ricetta;
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            try {
+                ricetta = new Ricetta();
+                String imageUrl="";
+                List<IngredienteRicetta> ingredienti= new ArrayList<IngredienteRicetta>();
+                String procedimento="";
+                Log.d("JSwa", "Connecting to [" + strings[0] + "]");
+                Document doc = Jsoup.connect(strings[0]).timeout(60*1000).get();
+                Log.d("JSwa", "Connected to [" + strings[0] + "]");
+                // Get document (HTML page) title
+                String title = doc.title();
+                try {
+                    title = title.substring(title.indexOf("|") + 1).trim();
+                }catch(Exception e){
+
+                }
+                Log.d("JSwA", "Title [" + title + "]");
+                //recupera imageURL
+                Elements listTagImg = doc.getElementsByTag("img");
+                boolean trovato=false;
+                for(Element element:listTagImg){
+                    if(element.toString().contains("<img class=\"aligncenter size-medium") && !trovato){
+                        //ci sono tre img che corrispondono a questo tag, a noi interessa il primo
+                        imageUrl=element.attr("srcset");
+                        imageUrl=imageUrl.split(" ")[0];
+                        trovato=true;
+                    }
+                }
+                //non ci sono informazioni sul numero di porzioni e la categoria di ricetta
+
+                //si ricercano gli ingredienti
+                String listIngredientiString="";
+                Elements elementsIngredienti= doc.getElementsByTag("ul");
+                for(Element element: elementsIngredienti){
+                    if(element.toString().contains("<li style=\"text-align: justify;\">")){
+                        listIngredientiString=element.toString().replaceAll("<strong>|</strong>|<em>|</em>|<ul> |</ul>|<li style=\"text-align: justify;\">|</li> ", "");
+                        //la listaIngredientiString potrebbe contenere informazioni sulla parte di ricetta a cui sono riferiti gli ingredienti, dobbiamo eliminarla
+                        String[] listStringheIngredienti= listIngredientiString.trim().split("\n");
+                        String allIngredienti="";
+                        for(String s: listStringheIngredienti){
+                            s=s.substring(s.indexOf(":")+1).trim();
+                            allIngredienti= allIngredienti+s+" ,";
+                        }
+                        ingredienti= getListaIngredienti(allIngredienti);
+                        for(IngredienteRicetta i: ingredienti)
+                        Log.d("INGREDIENTE= ",i.toString());
+                    }
+                }
+                //ricerca procedimento
+                Elements elementsProcedimento= doc.getElementsByTag("p");
+                for(Element element: elementsProcedimento){
+                    if(element.toString().contains("<p style=\"text-align: justify;\">")){
+                       // Log.d("DEBUG", element.toString());
+                        if(!element.toString().contains("<img class="))
+                        {
+                            procedimento=procedimento+element.toString()+"\n";
+                        }
+                    }
+                    }
+                procedimento=procedimento.replaceAll("<p style=\"text-align: justify;\">|<strong>|</strong>|</p>|<a href=\"|\">|</a>"," ").trim();
+                Log.d("Procedimento",procedimento);
+                ricetta.setNome(title);
+                ricetta.setNum_persone("");
+                ricetta.setProcedimento(procedimento);
+                ricetta.setCategoria("");
+                ricetta.setIngredientiList(ingredienti);
+                ricetta.setNota("");
+                final Bitmap image = loadImage(imageUrl);
+                if (image == null) ricetta.setHasImage(false);
+                else ricetta.setHasImage(true);
+                ricetta.save(new RushCallback() {
+                    @Override
+                    public void complete() {
+                        //controllare se c'è un'immagine e salvarla
+                        if (image != null) {
+
+                            RushBitmapFile file = new RushBitmapFile(context.getFilesDir().getAbsolutePath().concat(ricetta.getId()));
+                            try {
+                                file.setImage(image);
+                                file.save(new RushCallback() {
+                                    @Override
+                                    public void complete() {
+                                        dialog.dismiss();
+                                        startActivtyRicetta(ricetta);
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            dialog.dismiss();
+                            startActivtyRicetta(ricetta);
+                        }
+
+                    }
+                });
+            } catch (Throwable t) {
+                t.printStackTrace();
+                return 404;
+            }
+            return 200;
+        }
+
+        private List<IngredienteRicetta> getListaIngredienti(String ingredientiString){
+            List<IngredienteRicetta> ingredienti= new ArrayList<IngredienteRicetta>();
+            Pattern patternQ = Pattern.compile("(\\d?)*");
+            String[] ingredientiList= ingredientiString.trim().split(",");
+            for(String ingredienteString: ingredientiList){
+                ingredienteString=ingredienteString.trim();
+                String quantita="0";
+                String unita="";
+                String nome="";
+                String[] parti= ingredienteString.split(" ");
+                Matcher matcherQ = patternQ.matcher(parti[0].trim());
+                if (matcherQ.find()) {
+                    quantita = matcherQ.group();
+                    //Log.d("Quantità=",quantita);
+                    if(parti.length>2){
+                        unita= parti[1];
+                        //Log.d("Unita=", unita);
+                        for(int i=2; i<parti.length; i++)
+                            nome= nome+parti[i]+" ";
+                    }else{
+                        for(int i=1; i<parti.length; i++)
+                            nome= nome+parti[i]+" ";
+                    }
+                    nome=nome.replace("&nbsp","");
+                }
+                IngredienteRicetta ingrediente= new IngredienteRicetta();
+                try {
+                    ingrediente.setQuantita(Integer.parseInt(quantita.trim()));
+                    ingrediente.setUnita(unita);
+                    ingrediente.setNome(nome);
+                }catch(NumberFormatException e){
+                    ingrediente.setQuantita(0);
+                    ingrediente.setUnita("");
+                    ingrediente.setNome(Arrays.toString(parti).replace(","," "));
+                    ingrediente.setNome(ingrediente.getNome().replace("[",""));
+                    ingrediente.setNome(ingrediente.getNome().replace("]",""));
+                }
+                ingredienti.add(ingrediente);
+            }
+            return ingredienti;
+        }
+        @Override
+        protected void onPostExecute(Integer r) {
+            dialog.dismiss();
+            if (r == 404) {
+                AlertDialog dialog = new AlertDialog.Builder((ParserRicetta) context).create();
+                dialog.setTitle("Ricetta non trovata");
+                dialog.setMessage("Indirizzo non valido, impossibile inserire la ricetta");
+                dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                //Snackbar.make(((ParserRicetta)context).getCurrentFocus(), "Impossibile inserire la ricetta, indirizzo non trovato", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+    }
     }
 
 

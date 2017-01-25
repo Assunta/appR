@@ -53,6 +53,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/radioButtonRicetteCom"
             android:layout_weight="1" />
+
+        <RadioButton
+            android:text="RicetteInTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioButtonRicetteInTV"
+            android:layout_weight="1" />
+
     </RadioGroup>
 
     <ImageView
@@ -92,6 +100,17 @@
         android:layout_below="@+id/radioGroup"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/imageView5" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_ricette_in_tv"
+        android:layout_below="@+id/imageView_iconRadioButton2"
+        android:layout_toRightOf="@+id/radioGroup"
+        android:id="@+id/imageView4"
+        android:layout_above="@+id/buttonaURL"
+        android:layout_alignRight="@+id/imageView_iconRadioButton2"
+        android:layout_alignEnd="@+id/imageView_iconRadioButton2" />
 
 
 </RelativeLayout>
