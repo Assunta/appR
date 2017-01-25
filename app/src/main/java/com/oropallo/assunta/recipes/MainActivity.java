@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
 
+
+        //test
+        //Log.d("TEST",getFilesDir().getPath());
     }
 
 

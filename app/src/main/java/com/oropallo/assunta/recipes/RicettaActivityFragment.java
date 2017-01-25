@@ -165,6 +165,8 @@ public class RicettaActivityFragment extends Fragment {
         //non permetto di cambiare immagine, troppo lungo...........
         Button addPhoto=(Button) v_view.findViewById(R.id.button_add_immagine_ricetta);
         addPhoto.setVisibility(View.INVISIBLE);
+        ImageView imageViewButton =(ImageView) v_view.findViewById(R.id.imageView3);
+        imageViewButton.setVisibility(View.INVISIBLE);
         //create dialog
         builder.setView(v_view)
                 // Add action buttons

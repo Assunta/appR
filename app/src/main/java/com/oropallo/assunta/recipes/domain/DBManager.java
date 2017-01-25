@@ -6,7 +6,9 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -67,6 +69,17 @@ public class DBManager {
         try {
             images.add(file.getImage());
         } catch (IOException e) { }
+        }
+        return images;
+    }
+
+    public static Map<String, Bitmap> getAllImagesWithName(){
+        List<RushBitmapFile> objects = new RushSearch().find(RushBitmapFile.class);
+        Map<String,Bitmap> images= new HashMap<String,Bitmap>();
+        for(RushBitmapFile file: objects){
+            try {
+                images.put(file.getId(),file.getImage());
+            } catch (IOException e) { }
         }
         return images;
     }
