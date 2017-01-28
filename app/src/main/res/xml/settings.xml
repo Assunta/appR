@@ -9,9 +9,17 @@
             android:summary=""
             android:title="Show tutorial" >
         </CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Visualizzazione" >
+        <ListPreference
+            android:defaultValue="anteprima"
+            android:title="Visualizzazione ricette"
+            android:entries="@array/type_visualization"
+            android:entryValues="@array/type_visualization"
+            android:key="type_visualization" />
         <ListPreference
             android:defaultValue="10"
-            android:title="Numero di ricette da visualizzare"
+            android:title="Numero di ricette da visualizzare in anteprima"
             android:entries="@array/limit_show_ricette"
             android:entryValues="@array/limit_show_ricette"
             android:key="limit" />

@@ -19,28 +19,28 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveApi.DriveContentsResult;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFile;
 import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveFolder.DriveFileResult;
 import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.drive.query.SearchableField;
 import com.oropallo.assunta.recipes.R;
 import com.oropallo.assunta.recipes.domain.DBManager;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 import dmax.dialog.SpotsDialog;
@@ -51,6 +51,7 @@ import dmax.dialog.SpotsDialog;
 public class CreateFileActivity extends BaseDemoActivity {
 
     private static final String TAG = "CreateFileActivity";
+    private static final String TITLE="recipesDB";
     private DriveId mFolderDriveId;
     private int countFileDaSalvare=0;
     private SpotsDialog dialog;
@@ -68,6 +69,16 @@ public class CreateFileActivity extends BaseDemoActivity {
     public void onConnected(Bundle connectionHint) {
         super.onConnected(connectionHint);
         //TODO controllare se esiste già la directory e i file
+        //controllo se i file e la directory esistono gia'
+        /*Query query = new Query.Builder()
+                .addFilter(Filters.and(Filters.contains(SearchableField.TITLE, this.getPackageName())))
+                .build();
+        Drive.DriveApi.query(getGoogleApiClient(), query)
+                .setResultCallback(metadataCallback);*/
+        saveFirstTime();
+    }
+
+    private void saveFirstTime(){
         //create Folder
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
                 .setTitle(this.getPackageName()).build();
@@ -77,11 +88,10 @@ public class CreateFileActivity extends BaseDemoActivity {
         //create file with db information
         Drive.DriveApi.newDriveContents(getGoogleApiClient())
                 .setResultCallback(driveContentsCallback);
-
         //create image file for all images
-        Map<String,Bitmap> images= DBManager.getAllImagesWithName();
-        countFileDaSalvare=images.size();
-        for(String name: images.keySet()){
+        Map<String, Bitmap> images = DBManager.getAllImagesWithName();
+        countFileDaSalvare = images.size();
+        for (String name : images.keySet()) {
             createFile(null, name, "image/bmp", images.get(name));
         }
     }
@@ -157,7 +167,7 @@ public class CreateFileActivity extends BaseDemoActivity {
                     }
 
                     MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                            .setTitle("dbRecipes")
+                            .setTitle(TITLE)
                             .setMimeType("text/plain")
                             .setStarred(true).build();
 
@@ -198,6 +208,34 @@ public class CreateFileActivity extends BaseDemoActivity {
             mFolderDriveId=result.getDriveFolder().getDriveId();
         }
     };
+
+    //result calback query file dbRecipes exsist
+    final private ResultCallback<DriveApi.MetadataBufferResult> metadataCallback =
+            new ResultCallback<DriveApi.MetadataBufferResult>() {
+                @Override
+                public void onResult(DriveApi.MetadataBufferResult result) {
+                    if (!result.getStatus().isSuccess()) {
+                        showMessage("Problem while retrieving results");
+                        return;
+                    }
+                    Iterator<Metadata> i=result.getMetadataBuffer().iterator();
+                    while(i.hasNext()){
+                        Metadata m= i.next();
+                        Log.d("DEBUG", m.getTitle()+" "+m.isTrashable());
+                    }
+                    //TODO risolvere problema file eliminati ancora trushable
+                    Log.d("DEBUG", result.getMetadataBuffer().getCount()+"");
+                     if(result.getMetadataBuffer().getCount()>0) {
+                        dialog.dismiss();
+                        context.finish();
+                    }
+                    else
+                        saveFirstTime();
+
+
+                }
+            };
+
 
 
 }

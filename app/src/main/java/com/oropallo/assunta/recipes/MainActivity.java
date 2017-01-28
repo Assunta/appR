@@ -21,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -42,6 +43,7 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.akashandroid90.imageletter.MaterialLetterIcon;
 import com.oropallo.assunta.recipes.Adapter.AdapterMain;
+import com.oropallo.assunta.recipes.Adapter.AdapterMainElenco;
 import com.oropallo.assunta.recipes.Constant.Ingredienti;
 import com.oropallo.assunta.recipes.domain.Bookmark;
 import com.oropallo.assunta.recipes.domain.DBManager;
@@ -50,6 +52,8 @@ import com.oropallo.assunta.recipes.domain.Ricetta;
 import com.oropallo.assunta.recipes.googleDrive.CreateFileActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import co.uk.rushorm.android.AndroidInitializeConfig;
@@ -74,13 +78,30 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         //refresh list
-        //check limit di ricette da visualizzare
-        String limitString=PreferenceManager
-                .getDefaultSharedPreferences(this).getString("limit","10").toString();
-        limit=checkLimit(limitString);
-        list= DBManager.getAllRicetteWithLimit(limit);
-        final AdapterMain adapterMain= new AdapterMain(list);
-        recyclerView.setAdapter(adapterMain);
+        //check tipo di visualizzazione
+        String visualization=PreferenceManager
+                .getDefaultSharedPreferences(this).getString("type_visualization","anteprima").toString();
+        int typeVisualization= checkVisualization(visualization);
+        //visualizzazione anteprima
+        if(typeVisualization==0) {
+            //check limit di ricette da visualizzare
+            String limitString = PreferenceManager
+                    .getDefaultSharedPreferences(this).getString("limit", "10").toString();
+            limit = checkLimit(limitString);
+            list = DBManager.getAllRicetteWithLimit(limit);
+            final AdapterMain adapterMain = new AdapterMain(list);
+            recyclerView.setAdapter(adapterMain);
+        }else if(typeVisualization==1){
+            list= DBManager.getAllRicette();
+            //ordino la lista delle ricette per nome
+            Collections.sort(list, new Comparator<Ricetta>() {
+                @Override
+                public int compare(Ricetta o1, Ricetta o2) {
+                    return o1.getNome().toUpperCase().compareTo(o2.getNome().toUpperCase());
+                }
+            });
+            recyclerView.setAdapter(new AdapterMainElenco(list));
+        }
 
     }
 
@@ -120,9 +141,41 @@ public class MainActivity extends AppCompatActivity
         if(sharedPrefs.getBoolean("prefShowTutorial",true)==true)
         addTap();
 
-        //check limit di ricette da visualizzare
-        String limitString=sharedPrefs.getString("limit","10").toString();
-        limit=checkLimit(limitString);
+        //check tipo di visualizzazione
+        String visualization=sharedPrefs.getString("type_visualization","anteprima").toString();
+        int typeVisualization= checkVisualization(visualization);
+
+        //visualizzazione anteprima
+        if(typeVisualization==0) {
+            //check limit di ricette da visualizzare
+            String limitString = sharedPrefs.getString("limit", "10").toString();
+            limit = checkLimit(limitString);
+            Log.d("DEBUG", "Visualizza: "+limit);
+            list= DBManager.getAllRicetteWithLimit(limit);
+            recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(llm);
+            final AdapterMain adapterMain= new AdapterMain(list);
+            recyclerView.setAdapter(adapterMain);
+        }else if(typeVisualization==1){
+            recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
+            recyclerView.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(llm);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                    llm.getOrientation());
+            recyclerView.addItemDecoration(dividerItemDecoration);
+            list= DBManager.getAllRicette();
+            //ordino la lista delle ricette per nome
+            Collections.sort(list, new Comparator<Ricetta>() {
+                @Override
+                public int compare(Ricetta o1, Ricetta o2) {
+                    return o1.getNome().toUpperCase().compareTo(o2.getNome().toUpperCase());
+                }
+            });
+            recyclerView.setAdapter(new AdapterMainElenco(list));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -134,14 +187,6 @@ public class MainActivity extends AppCompatActivity
         setNavigationHeader(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Log.d("DEBUG", "Visualizza: "+limit);
-        list= DBManager.getAllRicetteWithLimit(limit);
-        recyclerView= (RecyclerView) findViewById(R.id.recycler_main);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(llm);
-        final AdapterMain adapterMain= new AdapterMain(list);
-        recyclerView.setAdapter(adapterMain);
 
         //controllo se ho il permesso di lettura/scrittura
         if (ContextCompat.checkSelfPermission(this,
@@ -156,7 +201,15 @@ public class MainActivity extends AppCompatActivity
         //Log.d("TEST",getFilesDir().getPath());
     }
 
-
+    private int checkVisualization(String visualization){
+        switch(visualization){
+            case"anteprima":
+                    return 0;
+            case "elenco":
+                return 1;
+            default:return 0;
+        }
+    }
     private int checkLimit(String limitString) {
     //items of string array limit_show_ricette
         switch (limitString){

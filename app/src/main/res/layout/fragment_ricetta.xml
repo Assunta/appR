@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:focusable="true"
@@ -82,18 +83,23 @@
         android:layout_marginTop="31dp"
         android:layout_below="@+id/procedimento"
         android:id="@+id/recycler_procedimento" />
-
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ingredienti"
+        android:id="@+id/scrollIngredienti">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
+        android:scrollbars="horizontal|vertical"
         android:id="@+id/recycler_ingredienti"
-        android:layout_below="@+id/ingredienti"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingTop="5dp" />
+        android:paddingTop="5dp"
+        tools:scrollbars="horizontal|vertical" />
+    </HorizontalScrollView>
 
     <TextView
         android:text="Procedimento"
@@ -102,7 +108,7 @@
         android:id="@+id/procedimento"
         android:fontFamily="cursive"
         android:textSize="24sp"
-        android:layout_below="@+id/recycler_ingredienti"
+        android:layout_below="@+id/scrollIngredienti"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
         android:paddingTop="5dp" />
