@@ -62,4 +62,5 @@
         <item>anteprima</item>
         <item>elenco</item>
     </string-array>
+    <string name="title_activity_sinc">SincActivity</string>
 </resources>

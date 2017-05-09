@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity
     private int limit=10;
     private  final int MY_PERMISSIONS_GET_ACCOUNTS=0;
     private  final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=1;
+    private final int MY_PERMISSIONS_CAMERA=2;
 
     @Override
     protected void onResume() {
@@ -195,6 +196,13 @@ public class MainActivity extends AppCompatActivity
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
+        //controllo se ho il permesso di camera
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},MY_PERMISSIONS_CAMERA);
+        }
 
 
         //test
@@ -308,7 +316,7 @@ public class MainActivity extends AppCompatActivity
             Intent i=new Intent(this, ActivityPageSlidingAddRicetta.class);
             startActivity(i);
         }else if(id==R.id.sycnhornizeItem){
-            Intent i= new Intent(this, CreateFileActivity.class);
+            Intent i= new Intent(this, SincActivity.class);
             startActivity(i);
         }
 
@@ -492,6 +500,16 @@ public class MainActivity extends AppCompatActivity
 
                 } else {
                     Log.d("DEBUG", "permission raed/write denied");
+                }
+                return;
+            }
+            case MY_PERMISSIONS_CAMERA: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Log.d("DEBUG", "permission camera denied");
                 }
                 return;
             }

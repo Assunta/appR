@@ -1,13 +1,16 @@
 package com.oropallo.assunta.recipes;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,10 @@ import android.widget.Spinner;
 import com.oropallo.assunta.recipes.Adapter.CompressImage;
 import com.oropallo.assunta.recipes.domain.Ricetta;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
@@ -31,6 +37,7 @@ import static android.app.Activity.RESULT_OK;
 public class AddRicettaFragment1 extends Fragment {
 
     private static int RESULT_LOAD_IMAGE = 1;
+    private static int REQUEST_CAMERA=0;
     private EditText name;
     private EditText num;
     private Spinner spinner_category;
@@ -78,18 +85,70 @@ public class AddRicettaFragment1 extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //OPEN GALLERIA
+              /*  //OPEN GALLERIA
                 Intent i = new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
-                //image.setImageResource(R.drawable.ic_menu_gallery);
+                //image.setImageResource(R.drawable.ic_menu_gallery);*/
+                selectImage();
                 button.setText("Change foto");
             }
         });
 
         return view;
+    }
+
+    private void selectImage() {
+        final CharSequence[] items = { "Take Photo", "Choose from Library",
+                "Cancel" };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+        builder.setTitle("Add Photo!");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (items[item].equals("Take Photo")) {
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, REQUEST_CAMERA);
+                } else if (items[item].equals("Choose from Library")) {
+                    Intent intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setType("image/*");
+                    startActivityForResult(
+                            Intent.createChooser(intent, "Select File"),
+                            RESULT_LOAD_IMAGE);
+                } else if (items[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void onCaptureImageResult(Intent data){
+        imageLoad = (Bitmap) data.getExtras().get("data");
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        imageLoad.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+        File destination = new File(Environment.getExternalStorageDirectory(),
+                System.currentTimeMillis() + ".jpg");
+
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        image.setImageBitmap(imageLoad);
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,6 +169,8 @@ public class AddRicettaFragment1 extends Fragment {
             }
             imageLoad=BitmapFactory.decodeFile(picturePath);
             image.setImageBitmap(imageLoad);
+        }else if(requestCode == REQUEST_CAMERA && resultCode == RESULT_OK && null != data){
+            onCaptureImageResult(data);
         }
     }
     public void getInfo(){

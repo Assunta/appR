@@ -1,6 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_sinc_title"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:background="@color/colorPrimaryDark" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view_sinc"
+        card_view:cardBackgroundColor="@color/cardview_light_background"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="8dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/grid_sinc">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            card_view:srcCompat="@android:drawable/stat_sys_download"
+            android:id="@+id/imageView_sinc"
+            android:background="@color/cardview_shadow_start_color"
+            android:layout_column="0"/>
+
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="208dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_sinc_descr"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:textSize="12sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp" />
+        </GridLayout>
+        <Button
+            android:text="Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_sinc"
+            android:layout_below="@+id/grid_sinc"
+            />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>
