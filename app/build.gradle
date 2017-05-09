@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-   # signingConfigs {
+   signingConfigs {
     #    config {
     #        keyAlias 'MyAndroidKey'
     #        keyPassword 'myandroidkey'
     #        storeFile file('C:/Users/Assunta/keystore.jks')
     #        storePassword 'keystore'
     #    }
-    #}
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
