@@ -1,4 +1,6 @@
 language: android
+before_install:
+ - chmod +x gradlew
 android:
   components:
     - tools # to get the new `repository-11.xml`
