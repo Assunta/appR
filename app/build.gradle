@@ -10,7 +10,7 @@ android {
         }
     }*/
     compileSdkVersion 25
-    buildToolsVersion "25.1.0"
+    buildToolsVersion "25.*.*"
     defaultConfig {
         applicationId "com.oropallo.assunta.recipes"
         minSdkVersion 15
